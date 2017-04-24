@@ -1,0 +1,28 @@
+<% include partials/header%>
+
+<div class="ui container">
+	<div class="ui segment">
+	<h1> Welcome to ThroughMyLens!</h1>
+	<p> View our photography work</p>
+	<a href="/upload" class="ui black button" >Add new photos</a>
+	</div>
+<div class="four column doubling ui grid">
+	<% photos.forEach(function(photo){%>
+	<div class="column">
+		<div class = "ui card">
+			<div class="ui rounded fluid image" >
+				<img src="<%=photo.src%>">
+			</div>
+			<div class = "ui center aligned content">
+				<%=photo.name %>
+			</div>
+
+		</div>
+	</div>	
+	<%})%>
+</div>
+	
+
+</div>
+
+<% include partials/footer%>
