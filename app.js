@@ -77,7 +77,31 @@ app.get("/photos/:id",function(req,res){
 // comment routes
 
 app.get("/photos/:id/comments/new",function(req,res){
-	res.render("comments/newcomment");
+	PhotoModel.findById(req.params.id,function(err,photo){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("comments/newcomment",{photo:photo});
+		}
+	})
+});
+
+app.post("/photos/:id/comments",function(req,res){
+	PhotoModel.findById(req.params.id,function(err, photo){
+		if(err){
+			console.log(err);
+		}else{
+			Comment.create(req.body.comment,function(err, comment){
+				if(err){
+					console.log(err);
+				}else{
+					photo.comments.push(comment);
+					photo.save();
+					res.redirect("/photos/"+photo.id);
+				}
+			})
+		}
+	});
 });
 
 
