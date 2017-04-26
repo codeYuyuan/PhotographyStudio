@@ -2,19 +2,18 @@ var express    = require("express");
 var app        = express();
 var bodyParser = require("body-parser");
 var mongoose   = require("mongoose");
+var PhotoModel = require("./models/photoModel");
+var Comment    = require("./models/comment");
+var seeDB	   = require("./seeds")
 
 mongoose.connect("mongodb://localhost/photostudio");
-app.use(express.static(__dirname + ""));
+app.use(express.static(__dirname + "/styles"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
+seeDB();
 
-var photoSchema = new mongoose.Schema({
-	name:String,
-	src:String,
-	des:String
-});
 
-var PhotoModel = mongoose.model("PhotoModel",photoSchema);
+
 // PhotoModel.create({
 // 		name:"cat",
 // 		src:"http://www.zivalice.si/wp-content/uploads/2016/01/sibirska-ma%C4%8Dka.png"
@@ -52,7 +51,7 @@ app.post("/photos",function(req,res){
 });
 
 app.get("/upload",function(req,res){
-	res.render("upload");
+	res.render("photos/upload");
 });
 
 app.get("/photos",function(req,res){
@@ -60,20 +59,26 @@ app.get("/photos",function(req,res){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("photopage",{photos:photoCollection});
+			res.render("photos/photopage",{photos:photoCollection});
 		}
 	})
 app.get("/photos/:id",function(req,res){
-	PhotoModel.findById(req.params.id,function(err,foundPhoto){
+	PhotoModel.findById(req.params.id).populate("comments").exec(function(err,foundPhoto){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("show",{photo:foundPhoto});
+			res.render("photos/show",{photo:foundPhoto});
 
 		}
 	});
 
 })
+
+// comment routes
+
+app.get("/photos/:id/comments/new",function(req,res){
+	res.render("comments/newcomment");
+});
 
 
 	

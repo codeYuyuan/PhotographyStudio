@@ -1,0 +1,32 @@
+<% include ../partials/header%>
+
+
+<div class= "ui items">
+	<div class="item">
+	  	<div class="ui massive image">
+	  		<img src="<%=photo.src%>">
+	  	</div>
+		
+		<div class="content">
+      		<a class="header">Header</a>
+      	<div class="meta">
+        	<span>Description</span>
+      	</div>
+      	<div class="description">
+        	<p></p>
+      	</div>
+      	<div class="extra">
+       	 	Additional Details
+      	</div>
+	</div>
+	
+</div>
+
+
+<% photo.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+<% }) %>
+
+<% include ../partials/footer%>
