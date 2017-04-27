@@ -4,15 +4,35 @@ var bodyParser = require("body-parser");
 var mongoose   = require("mongoose");
 var PhotoModel = require("./models/photoModel");
 var Comment    = require("./models/comment");
-var seeDB	   = require("./seeds")
+var seedDB	   = require("./seeds");
+var passport   = require("passport");
+var LocalStrategy = require("passport-local");
+var flash = require('connect-flash');
+var User = require("./models/user");
 
 mongoose.connect("mongodb://localhost/photostudio");
 app.use(express.static(__dirname + "/styles"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
-seeDB();
+seedDB();
 
+//Passport configuration
+app.use(require("express-session")({
+	secret:"Secret session",
+	resave: false,
+	saveUninitialized:false
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req,res,next){
+	res.locals.currentUser = req.user;
+	next();
+});
 
 // PhotoModel.create({
 // 		name:"cat",
@@ -62,6 +82,7 @@ app.get("/photos",function(req,res){
 			res.render("photos/photopage",{photos:photoCollection});
 		}
 	})
+});
 app.get("/photos/:id",function(req,res){
 	PhotoModel.findById(req.params.id).populate("comments").exec(function(err,foundPhoto){
 		if(err){
@@ -76,7 +97,7 @@ app.get("/photos/:id",function(req,res){
 
 // comment routes
 
-app.get("/photos/:id/comments/new",function(req,res){
+app.get("/photos/:id/comments/new",isLoggedIn,function(req,res){
 	PhotoModel.findById(req.params.id,function(err,photo){
 		if(err){
 			console.log(err);
@@ -86,7 +107,7 @@ app.get("/photos/:id/comments/new",function(req,res){
 	})
 });
 
-app.post("/photos/:id/comments",function(req,res){
+app.post("/photos/:id/comments",isLoggedIn,function(req,res){
 	PhotoModel.findById(req.params.id,function(err, photo){
 		if(err){
 			console.log(err);
@@ -104,9 +125,48 @@ app.post("/photos/:id/comments",function(req,res){
 	});
 });
 
-
-	
+//
+app.get("/register",function(req,res){
+	res.render("register");
 });
+
+app.post("/register",function(req,res){
+	var newUser = new User({username:req.body.username});
+	User.register(newUser,req.body.password,function(err,user){
+		if(err){
+			console.log(err);
+			return res.render("register");
+		}
+		passport.authenticate("local")(req,res,function(){
+			res.redirect("/photos");
+		})
+	})
+});
+
+app.get("/login",function(req,res){
+	res.render("login");
+});
+
+app.post("/login",passport.authenticate("local",
+	{
+		successRedirect:"/photos",
+		failureRedirect:"/login",
+		failureFlash: 'Invalid username or password.'
+	}),function(req,res){
+});
+
+app.get("/logout",function(req,res){
+	req.logout();
+	res.redirect("/photos");
+})
+
+function isLoggedIn(req,res,next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
+
 app.listen("3000",function(){
 	console.log("Server started!");
 });
