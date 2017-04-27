@@ -2,11 +2,16 @@ var express = require("express");
 var router = express.Router();
 var PhotoModel = require("../models/photoModel");
 
-router.post("/",function(req,res){
+router.post("/",isLoggedIn,function(req,res){
 	var name = req.body.name;
 	var src = req.body.src;
 	var des = req.body.des;
-	var newPhoto = {name:name,src:src,des:des};
+	var author = {
+		id: req.user._id,
+		username: req.user.username
+	};
+	var newPhoto = {name:name,src:src,des:des,author:author};
+	
 	PhotoModel.create(newPhoto,function(err,newlyCreated){
 		if(err){
 			console.log(err);
@@ -16,7 +21,7 @@ router.post("/",function(req,res){
 	})
 });
 
-router.get("/upload",function(req,res){
+router.get("/upload",isLoggedIn,function(req,res){
 	res.render("photos/upload");
 });
 
@@ -41,4 +46,10 @@ router.get("/:id",function(req,res){
 
 });
 
+function isLoggedIn(req,res,next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
 module.exports = router;
