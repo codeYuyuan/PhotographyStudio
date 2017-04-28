@@ -46,6 +46,32 @@ router.get("/:id",function(req,res){
 
 });
 
+router.get("/:id/edit",function(req,res){
+	PhotoModel.findById(req.params.id,function(err,foundPhoto){
+		if(err){
+			res.redirect("/photos");
+		}else{
+			res.render("photos/edit",{photo:foundPhoto});
+		}
+	});
+});
+
+router.put("/:id",function(req,res){
+	PhotoModel.findByIdAndUpdate(req.params.id,req.body.photo,function(err,updatedPhoto){
+		if(err){
+			res.redirect("/photos");
+		}else{
+			res.redirect("/photos/" + req.params.id);
+		}
+	})
+});
+
+router.delete("/:id",function(req,res){
+	PhotoModel.findByIdAndRemove(req.params.id,function(err){
+		res.redirect("/photos");
+	})
+});
+
 function isLoggedIn(req,res,next){
 	if(req.isAuthenticated()){
 		return next();

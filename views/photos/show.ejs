@@ -8,18 +8,24 @@
 	  	</div>
 		
 		<div class="content">
-      		<a class="header"><%=photo.name%></a>
+      		<p class="header"><%=photo.name%></p>
+          
       	<div class="meta">
           <p><em>Uploaded by:</em> <%=photo.author.username%></p>
+          
           <br>
         	<span>Description</span>
       	</div>
       	<div class="description">
         	<p><%=photo.des%></p>
           <br>
+          <em><a href="/photos/<%=photo.id%>/edit" >Edit</a></em>
+          <form id="deleteForm" action="/photos/<%=photo.id%>?_method=DELETE" method="POST">
+            <em><a href="javascript:{}" onclick="document.getElementById('deleteForm').submit(); return false;">Delete</a></em>
+          </form>
       	</div>
       	<div class="extra">
-       	 	Additional Details
+       	 	EXIF:
       	</div>
         <br>
         <div class= "ui container">
