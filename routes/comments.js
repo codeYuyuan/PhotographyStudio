@@ -1,9 +1,10 @@
 var express = require("express");
 var router = express.Router({mergeParams:true});
 var PhotoModel = require("../models/photoModel");
-var Comment = require("../models/comment")
+var Comment = require("../models/comment");
+var middleware = require("../middleware");
 
-router.get("/new",isLoggedIn,function(req,res){
+router.get("/new",middleware.isLoggedIn,function(req,res){
 	PhotoModel.findById(req.params.id,function(err,photo){
 		if(err){
 			console.log(err);
@@ -12,8 +13,8 @@ router.get("/new",isLoggedIn,function(req,res){
 		}
 	})
 });
-
-router.post("/",isLoggedIn,function(req,res){
+//create router
+router.post("/",middleware.isLoggedIn,function(req,res){
 	PhotoModel.findById(req.params.id,function(err, photo){
 		if(err){
 			console.log(err);
@@ -27,6 +28,7 @@ router.post("/",isLoggedIn,function(req,res){
 					comment.save();
 					photo.comments.push(comment);
 					photo.save();
+					req.flash("success","Leave a comment successfully")
 					res.redirect("/photos/"+photo.id);
 				}
 			})
@@ -34,7 +36,7 @@ router.post("/",isLoggedIn,function(req,res){
 	});
 });
 
-router.get("/:comment_id/edit",isCommentAuthorizated,function(req,res){
+router.get("/:comment_id/edit",middleware.isCommentAuthorizated,function(req,res){
 	Comment.findById(req.params.comment_id,function(err,comment){
 		if(err){
 			res.redirect("back");
@@ -48,7 +50,7 @@ router.get("/:comment_id/edit",isCommentAuthorizated,function(req,res){
 	
 })
 
-router.put("/:comment_id",isCommentAuthorizated,function(req,res){
+router.put("/:comment_id",middleware.isCommentAuthorizated,function(req,res){
 	Comment.findByIdAndUpdate(req.params.comment_id,req.body.comment,function(err,updatedComment){
 		if(err){
 			console.log(err);
@@ -59,41 +61,17 @@ router.put("/:comment_id",isCommentAuthorizated,function(req,res){
 });
 
 //destroy comment route
-router.delete("/:comment_id",isCommentAuthorizated,function(req,res){
+router.delete("/:comment_id",middleware.isCommentAuthorizated,function(req,res){
 	Comment.findByIdAndRemove(req.params.comment_id,function(err){
 		if(err){
 			res.redirect("back");
 		}else{
+			res.flash("success","Comment deleted successfully");
 			res.redirect("/photos/"+req.params.id);
 		}
 	})
 })
 
-function isLoggedIn(req,res,next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
-function isCommentAuthorizated(req,res,next){
-	// is logged in? if not, redict, if it does, show the edit page
-	if(req.isAuthenticated()){
-		//check authorization
-		Comment.findById(req.params.comment_id,function(err,foundComment){
-			if(err){
-				res.redirect("back");
-			}else{
-				if(req.user &&foundComment.author.id &&foundComment.author.id.equals(req.user._id)){
-					next();
-				}else{
-					res.redirect("back");
-				}		
-			}
-		});
-	}else{
-		res.redirect("back");
-	}
-}
 
 module.exports = router;
