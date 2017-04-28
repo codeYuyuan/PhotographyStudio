@@ -46,17 +46,13 @@ router.get("/:id",function(req,res){
 
 });
 
-router.get("/:id/edit",function(req,res){
+router.get("/:id/edit",isAuthorizated,function(req,res){
 	PhotoModel.findById(req.params.id,function(err,foundPhoto){
-		if(err){
-			res.redirect("/photos");
-		}else{
 			res.render("photos/edit",{photo:foundPhoto});
-		}
 	});
 });
 
-router.put("/:id",function(req,res){
+router.put("/:id",isAuthorizated,function(req,res){
 	PhotoModel.findByIdAndUpdate(req.params.id,req.body.photo,function(err,updatedPhoto){
 		if(err){
 			res.redirect("/photos");
@@ -66,7 +62,7 @@ router.put("/:id",function(req,res){
 	})
 });
 
-router.delete("/:id",function(req,res){
+router.delete("/:id",isAuthorizated,function(req,res){
 	PhotoModel.findByIdAndRemove(req.params.id,function(err){
 		res.redirect("/photos");
 	})
@@ -77,5 +73,26 @@ function isLoggedIn(req,res,next){
 		return next();
 	}
 	res.redirect("/login");
+}
+
+function isAuthorizated(req,res,next){
+	// is logged in? if not, redict, if it does, show the edit page
+	if(req.isAuthenticated()){
+		//check authorization
+		PhotoModel.findById(req.params.id,function(err,foundPhoto){
+			if(err){
+				res.redirect("back");
+			}else{
+				if(req.user&&foundPhoto.author.id.equals(req.user._id)){
+					next();
+					
+				}else{
+					res.redirect("back");
+				}		
+			}
+		});
+	}else{
+		res.redirect("back");
+	}
 }
 module.exports = router;

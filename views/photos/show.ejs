@@ -19,10 +19,13 @@
       	<div class="description">
         	<p><%=photo.des%></p>
           <br>
+          <%if(currentUser && photo.author.id &&photo.author.id.equals(currentUser._id)){%>
+          <%console.log(photo.author.id);%>
           <em><a href="/photos/<%=photo.id%>/edit" >Edit</a></em>
           <form id="deleteForm" action="/photos/<%=photo.id%>?_method=DELETE" method="POST">
             <em><a href="javascript:{}" onclick="document.getElementById('deleteForm').submit(); return false;">Delete</a></em>
           </form>
+          <%}%>
       	</div>
       	<div class="extra">
        	 	EXIF:
@@ -33,6 +36,12 @@
           <% photo.comments.forEach(function(comment){ %>
     <p>
         <strong><%= comment.author.username %></strong> - <%= comment.text %>
+        <%if(currentUser && comment.author.id && comment.author.id.equals(currentUser._id)){%>
+          <form id="deleteForm" action="/photos/<%=photo._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+            <a class="ui basic blue button" href="/photos/<%=photo._id%>/comments/<%=comment._id%>/edit">Edit</a>
+            <input type="submit" class="ui basic red button" value="Delete">
+          </form>
+        <%}%>
     </p>
 <% }) %>
         </div>

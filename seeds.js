@@ -35,7 +35,9 @@ function seedDB(){
 				console.log("add image");
 				Comment.create({
 					text: "It's amazing!",
-					author: "Admin"
+					author: {
+						username: "admin"
+					}
 				},function(err,comment){
 					if(err){
 						console.log(err);
