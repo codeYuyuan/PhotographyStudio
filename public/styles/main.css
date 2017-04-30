@@ -1,5 +1,8 @@
 body{
-	padding:60px;
+   padding:60px;
+   margin:0;
+   height:100%;
+}
 }
 .Site {
 	display: flex;
@@ -10,4 +13,21 @@ body{
 #deleteForm{
 	display:inline;
 	padding-left:10px;
+}
+#footer {
+  position: absolute;
+  right: 0;
+  /* bottom: 0; */
+  left: 0;
+  padding: 1rem;
+  background-color: white;
+  text-align: center;
+}
+#body {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+}
+#container {
+   min-height:100%;
+   position:relative;
 }

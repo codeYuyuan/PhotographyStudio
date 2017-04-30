@@ -41,7 +41,6 @@ router.get("/:id",function(req,res){
 			console.log(err);
 		}else{
 			res.render("photos/show",{photo:foundPhoto});
-
 		}
 	});
 

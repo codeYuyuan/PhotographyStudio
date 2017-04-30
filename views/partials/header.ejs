@@ -15,13 +15,13 @@
 <div class="ui large top fixed hidden menu">
 	<div class = "ui container">
 		<a href="/" class="active item">Home</a>
-		<a href="/photos" class="item">Photos</a>
+		<a href="/photos" class="item">Discover</a>
 		<div class="right menu">
 			<%if(!currentUser){ %>
 				<a href="/login" class="item">Log In</a>
 				<a href="/register" class="item">Sign Up</a>
 			<%}else{%>
-				<a href="#" class="item"><strong><i><%=currentUser.username%></i></strong></a>
+				<a href="#" class="item"><i class="user icon"></i><strong><em><%=currentUser.username%></em></strong></a>
 				<a href="/logout" class="item">Log Out</a>
 			<%}%>
 		</div>
@@ -35,7 +35,6 @@
 				  	<div class="header">
 				   	 <%=success%>
 				  	</div>
-				</div>
 				<%}%>
 				<%if(error && error.length > 0){%>
 				<div class="ui negative message">
@@ -44,9 +43,10 @@
 					</div>
 				</div>
 				<%}%>
-			
-		</div>
-		
+			</div>
+		</div>	
 	</div>
 </div>
+<div id="container">
+	<div id="body">
 

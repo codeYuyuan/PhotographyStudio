@@ -2,27 +2,28 @@
 
 <div class="ui container">
 	<div class="ui segment">
-	<h1> Welcome to ThroughMyLens!</h1>
-	<p> View our photography work</p>
-	<a href="/photos/upload" class="ui black button" >Add new photos</a>
+		<h1> Welcome to ThroughMyLens!</h1>
+		<p> View our photography work</p>
+		<a href="/photos/upload" class="ui black button" >Upload your photos</a>
 	</div>
-<div class="ui three column grid">
-	<% photos.forEach(function(photo){%>
-	<div class="column">
-		<div class = "ui fluid card">
-			<div class="ui rounded fluid image" >
-				<a href="photos/<%=photo.id%>"><img src="<%=photo.src%>"></a>
+
+
+	<div class="ui three column grid">
+		<% photos.forEach(function(photo){%>
+		<div class="column">
+			<div class = "ui fluid card">
+				<a href="photos/<%=photo.id%>">
+					<span class="ui rounded fluid image">
+						<img src="<%=photo.src%>">
+					</span>
+				</a>
+				<div class = "ui center aligned content">
+					<%=photo.name %>
+				</div>
+
 			</div>
-			<div class = "ui center aligned content">
-				<%=photo.name %>
-			</div>
-
-		</div>
-	</div>	
-	<%})%>
+		</div>	
+		<%})%>
+	</div>
 </div>
-	
-
-</div>
-
 <% include ../partials/footer%>

@@ -66,7 +66,7 @@ router.delete("/:comment_id",middleware.isCommentAuthorizated,function(req,res){
 		if(err){
 			res.redirect("back");
 		}else{
-			res.flash("success","Comment deleted successfully");
+			req.flash("success","Comment deleted successfully");
 			res.redirect("/photos/"+req.params.id);
 		}
 	})

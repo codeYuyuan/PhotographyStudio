@@ -14,8 +14,8 @@ var data = [
         description: "blah blah blah"
     },
     {
-        name: "Canyon Floor", 
-        src: "https://farm1.staticflickr.com/189/493046463_841a18169e.jpg",
+        name: "Vancouver Skyline", 
+        src: "/images/vancouverSkyline.jpg",
         description: "blah blah blah"
     }
 ]

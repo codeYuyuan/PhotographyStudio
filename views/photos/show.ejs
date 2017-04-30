@@ -1,141 +1,80 @@
 <% include ../partials/header%>
-
-
-<div class= "ui items">
-	<div class="item">
-	  	<div class="ui massive image">
-	  		<img src="<%=photo.src%>">
-	  	</div>
-		
-		<div class="content">
-      		<p class="header"><%=photo.name%></p>
-          
-      	<div class="meta">
-          <p><em>Uploaded by:</em> <%=photo.author.username%></p>
-          
+<div id = container>
+  <div id="body">
+  <div class= "ui items">
+  	<div class="item">
+  	  	<div class="ui massive image">
+  	  		<img src="<%=photo.src%>">
+  	  	</div>
+  		
+  		<div class="content">
+        		<p class="header"><%=photo.name%></p>
+            
+        	<div class="meta">
+            <p><em>Uploaded by:</em> <%=photo.author.username%></p>
+            
+            <br>
+          	<span>Description</span>
+        	</div>
+        	<div class="description">
+          	<p><%=photo.des%></p>
+            <br>
+            <%if(currentUser && photo.author.id &&photo.author.id.equals(currentUser._id)){%>
+            <%console.log(photo.author.id);%>
+            <em><a href="/photos/<%=photo.id%>/edit" >Edit</a></em>
+            <form id="deleteForm" action="/photos/<%=photo.id%>?_method=DELETE" method="POST">
+              <em><a href="javascript:{}" onclick="document.getElementById('deleteForm').submit(); return false;">Delete</a></em>
+            </form>
+            <%}%>
+        	</div>
+        	<div class="extra">
+         	 	
+        	</div>
           <br>
-        	<span>Description</span>
-      	</div>
-      	<div class="description">
-        	<p><%=photo.des%></p>
-          <br>
-          <%if(currentUser && photo.author.id &&photo.author.id.equals(currentUser._id)){%>
-          <%console.log(photo.author.id);%>
-          <em><a href="/photos/<%=photo.id%>/edit" >Edit</a></em>
-          <form id="deleteForm" action="/photos/<%=photo.id%>?_method=DELETE" method="POST">
-            <em><a href="javascript:{}" onclick="document.getElementById('deleteForm').submit(); return false;">Delete</a></em>
-          </form>
-          <%}%>
-      	</div>
-      	<div class="extra">
-       	 	EXIF:
-      	</div>
-        <br>
-        <div class= "ui container">
-        <p>COMMENTS</p>
-          <% photo.comments.forEach(function(comment){ %>
-    <p>
-        <strong><%= comment.author.username %></strong> - <%= comment.text %>
-        <%if(currentUser && comment.author.id && comment.author.id.equals(currentUser._id)){%>
-          <form id="deleteForm" action="/photos/<%=photo._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-            <a class="ui basic blue button" href="/photos/<%=photo._id%>/comments/<%=comment._id%>/edit">Edit</a>
-            <input type="submit" class="ui basic red button" value="Delete">
-          </form>
-        <%}%>
-    </p>
-<% }) %>
         </div>
-	</div>
-	
-</div>
+  	</div>	
+  </div>
 
-<div class="ui comments">
   <div class="ui comments">
-  <h3 class="ui dividing header">Comments</h3>
-  <div class="comment">
-    <a class="avatar">
-      <img src="/images/avatar/small/matt.jpg">
-    </a>
-    <div class="content">
-      <a class="author">Matt</a>
-      <div class="metadata">
-        <span class="date">Today at 5:42PM</span>
-      </div>
-      <div class="text">
-        How artistic!
-      </div>
-      <div class="actions">
-        <a class="reply">Reply</a>
-      </div>
-    </div>
-  </div>
-  <div class="comment">
-    <a class="avatar">
-      <img src="/images/avatar/small/elliot.jpg">
-    </a>
-    <div class="content">
-      <a class="author">Elliot Fu</a>
-      <div class="metadata">
-        <span class="date">Yesterday at 12:30AM</span>
-      </div>
-      <div class="text">
-        <p>This has been very useful for my research. Thanks as well!</p>
-      </div>
-      <div class="actions">
-        <a class="reply">Reply</a>
-      </div>
-    </div>
-    <div class="comments">
-      <div class="comment">
-        <a class="avatar">
-          <img src="/images/avatar/small/jenny.jpg">
-        </a>
-        <div class="content">
-          <a class="author">Jenny Hess</a>
-          <div class="metadata">
-            <span class="date">Just now</span>
-          </div>
-          <div class="text">
-            Elliot you are always so right :)
-          </div>
-          <div class="actions">
-            <a class="reply">Reply</a>
-          </div>
+    <div class="ui comments">
+      <h3 class="ui dividing header">Comments</h3>
+      <%photo.comments.forEach(function(comment){ %>
+        <div class="comment">
+          <a class="avatar">
+            <i class="user big icon"></i>
+          </a>
+          <div class="content">
+            <a class="author"><%= comment.author.username %></a>
+            <div class="metadata">
+              <span class="date"><%= comment.created.toDateString() %></span>
+            </div>
+            <div class="text">
+              <p><%= comment.text %> </p>
+            </div>
+            <%if(currentUser && comment.author.id && comment.author.id.equals(currentUser._id)){%>
+                <a class="ui mini basic blue button" href="/photos/<%=photo._id%>/comments/<%=comment._id%>/edit"><i class="edit icon"></i>Edit</a>
+                <form id="deleteForm" action="/photos/<%=photo._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                  
+                  <button type="submit" class="ui basic mini red button"> <i class="trash icon"></i>Delete</button>
+                </form>
+              <%}%>   
+          </div>   
         </div>
-      </div>
+    </div>
+    <%})%>
+  </div>
+  <br>
+  <div class="ui grid">
+    <div class= "ten wide column gird">
+      <form class= "ui form" action="/photos/<%=photo.id%>/comments" method="POST">
+        <h3>Say something:</h3>
+        <div class="field">
+          <textarea name = "comment[text]" placeholder="Comment here..."></textarea>
+        </div>
+        <button class="ui right floated primary button" type = "submit">Submit</button>
+      </form>
     </div>
   </div>
-  <div class="comment">
-    <a class="avatar">
-      <img src="/images/avatar/small/joe.jpg">
-    </a>
-    <div class="content">
-      <a class="author">Joe Henderson</a>
-      <div class="metadata">
-        <span class="date">5 days ago</span>
-      </div>
-      <div class="text">
-        Dude, this is awesome. Thanks so much
-      </div>
-      <div class="actions">
-        <a class="reply">Reply</a>
-      </div>
-    </div>
-  </div>
-  <form class="ui reply form">
-    <div class="field">
-      <textarea></textarea>
-    </div>
-    <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> Add Reply
-    </div>
-  </form>
 </div>
-  <button class = "ui black basic button"><a href="/photos/<%=photo.id%>/comments/new">Leave your comment</a></button>
-  
-    
-
-</div>
-
 
 <% include ../partials/footer%>
