@@ -46,6 +46,6 @@ app.use(indexRoutes);
 app.use("/photos",photoRoutes);
 app.use("/photos/:id/comments",commentRoutes);
 
-app.listen(process.env.PORT, precess.env.IP,function(){
+app.listen(process.env.PORT, process.env.IP,function(){
 	console.log("Server started!");
 });
