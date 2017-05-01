@@ -47,22 +47,22 @@ hr {
 
 
 .slideshow li:nth-child(1) { 
-  background-image: url(http://i.imgur.com/K3mPv14.jpg) 
+  background-image: url("../images/onTheTopOfGreatWall.jpg");
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(http://i.imgur.com/SBEmFpv.jpg);
+  background-image: url("../images/teaFarm.jpg");
   animation-delay: 8s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(http://i.imgur.com/emvhOnb.jpg);
+  background-image: url("../images/saskatoon.jpg");
   animation-delay: 16s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
+  background-image: url("../images/thai9.jpg");
   animation-delay: 24s; 
 }
 .slideshow li:nth-child(5) { 
-  background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
+  background-image: url("../images/vancouverSkyline.jpg");
   animation-delay: 32s; 
 }
 @keyframes imageAnimation { 

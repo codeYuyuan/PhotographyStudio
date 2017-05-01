@@ -43,5 +43,9 @@ router.get("/logout",function(req,res){
 	res.redirect("/photos");
 });
 
+router.get("/about",function(req,res){
+	res.render("about");
+});
+
 
 module.exports = router;

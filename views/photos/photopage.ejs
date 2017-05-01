@@ -1,9 +1,11 @@
 <% include ../partials/header%>
-
+<script type="text/javascript">
+	$("#discover").addClass("active");
+</script>
 <div class="ui container">
 	<div class="ui segment">
 		<h1> Welcome to ThroughMyLens!</h1>
-		<p> View our photography work</p>
+		<p> View my photography work</p>
 		<a href="/photos/upload" class="ui black button" >Upload your photos</a>
 	</div>
 
@@ -20,7 +22,6 @@
 				<div class = "ui center aligned content">
 					<%=photo.name %>
 				</div>
-
 			</div>
 		</div>	
 		<%})%>

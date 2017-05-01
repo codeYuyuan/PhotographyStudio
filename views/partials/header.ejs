@@ -14,12 +14,13 @@
 <body class="Site">
 <div class="ui large top fixed hidden menu">
 	<div class = "ui container">
-		<a href="/" class="active item">Home</a>
-		<a href="/photos" class="item">Discover</a>
+		<a href="/" class="item">Home</a>
+		<a href="/photos" class="item" id="discover">Discover</a>
+		<a href="/about" class="item" id="about">About</a>
 		<div class="right menu">
 			<%if(!currentUser){ %>
-				<a href="/login" class="item">Log In</a>
-				<a href="/register" class="item">Sign Up</a>
+				<a href="/login" class="item" id="login">Log In</a>
+				<a href="/register" class="item" id="signup">Sign Up</a>
 			<%}else{%>
 				<a href="#" class="item"><i class="user icon"></i><strong><em><%=currentUser.username%></em></strong></a>
 				<a href="/logout" class="item">Log Out</a>
