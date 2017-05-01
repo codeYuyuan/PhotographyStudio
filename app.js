@@ -16,7 +16,7 @@ var commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index")
 
 // mongoose.connect("mongodb://localhost/photostudio");
-mongoose.connect("mongodb://marico:throughmylens@ds127801.mlab.com:27801/throughmylens");
+mongoose.connect("mongodb://marico:admin@ds127801.mlab.com:27801/throughmylens");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
@@ -46,6 +46,6 @@ app.use(indexRoutes);
 app.use("/photos",photoRoutes);
 app.use("/photos/:id/comments",commentRoutes);
 
-app.listen("3000",function(){
+app.listen(process.env.PORT, precess.env.IP,function(){
 	console.log("Server started!");
 });
