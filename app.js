@@ -16,7 +16,8 @@ var commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index")
 
 // mongoose.connect("mongodb://localhost/photostudio");
-mongoose.connect("mongodb://marico:admin@ds127801.mlab.com:27801/throughmylens");
+
+mongoose.connect(process.env.DATABASEURL);
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
