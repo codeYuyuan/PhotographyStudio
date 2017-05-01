@@ -19,7 +19,7 @@ router.post("/register",function(req,res){
 			return res.redirect("/register");
 		}
 		passport.authenticate("local")(req,res,function(){
-			res.flash("success","Account created successfully, welcome here!");
+			req.flash("success","Account created successfully, welcome here!");
 			res.redirect("/photos");
 		})
 	})

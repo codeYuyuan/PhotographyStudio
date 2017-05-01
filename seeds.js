@@ -2,23 +2,7 @@ var mongoose = require("mongoose");
 var PhotoModel = require("./models/photoModel");
 var Comment = require("./models/comment");
 
-var data = [
-    {
-        name: "Cloud's Rest", 
-        src: "https://image.ibb.co/bWHtJ5/on_The_Top_Of_Great_Wall.jpg",
-        description: "blah blah blah"
-    },
-    {
-        name: "Desert Mesa", 
-        src: "http://www.desktopas.com/files/2013/09/Russian-Blue-Cat-11-1800x1200.jpg",
-        description: "blah blah blah"
-    },
-    {
-        name: "Vancouver Skyline", 
-        src: "/images/vancouverSkyline.jpg",
-        description: "blah blah blah"
-    }
-]
+var data = [];
 
 function seedDB(){
 	PhotoModel.remove({},function(err){
