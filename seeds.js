@@ -5,12 +5,12 @@ var Comment = require("./models/comment");
 var data = [];
 
 function seedDB(){
-	PhotoModel.remove({},function(err){
-		if(err){
-			console.log(err);
-		}
-		console.log("All photo removed!");
-	})
+	// PhotoModel.remove({},function(err){
+	// 	if(err){
+	// 		console.log(err);
+	// 	}
+	// 	console.log("All photo removed!");
+	// })
 	data.forEach(function(seed){
 		PhotoModel.create(seed, function(err,photo){
 			if(err){
