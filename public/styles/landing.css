@@ -37,7 +37,7 @@ body {
   background-repeat: no-repeat;
   opacity: 0;
   z-index: 0;
-  animation: imageAnimation 20s linear infinite; 
+  animation: imageAnimation 35s linear infinite; 
 }
 hr {
     width: 400px;
@@ -51,19 +51,19 @@ hr {
 }
 .slideshow li:nth-child(2) { 
   background-image: url("../images/teaFarm.jpg");
-  animation-delay: 4s; 
+  animation-delay: 7s; 
 }
 .slideshow li:nth-child(3) { 
   background-image: url("../images/saskatoon.jpg");
-  animation-delay: 8s; 
+  animation-delay: 14s; 
 }
 .slideshow li:nth-child(4) { 
   background-image: url("../images/thai9.jpg");
-  animation-delay: 12s; 
+  animation-delay: 21s; 
 }
 .slideshow li:nth-child(5) { 
   background-image: url("../images/vancouverSkyline.jpg");
-  animation-delay: 16s; 
+  animation-delay: 28s; 
 }
 @keyframes imageAnimation { 
   0% { 
