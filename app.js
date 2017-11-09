@@ -15,7 +15,7 @@ var commentRoutes    = require("./routes/comments"),
     photoRoutes = require("./routes/photos"),
     indexRoutes      = require("./routes/index")
 
-// mongoose.connect("mongodb://localhost/photostudio");
+//mongoose.connect("mongodb://localhost/photostudio");
 
 mongoose.connect(process.env.DATABASEURL);
 app.use(express.static(__dirname + "/public"));
@@ -47,9 +47,9 @@ app.use(indexRoutes);
 app.use("/photos",photoRoutes);
 app.use("/photos/:id/comments",commentRoutes);
 
-// app.listen("3000",function(){
-// 	console.log("Server started");
-// })
-app.listen(process.env.PORT, process.env.IP,function(){
-	console.log("Server started!");
-});
+ app.listen("8080",function(){
+ 	console.log("Server started on port 8080");
+ })
+//app.listen(process.env.PORT, process.env.IP,function(){
+//	console.log("Server started!");
+//});
